@@ -1,4 +1,4 @@
-import {inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {IUser} from "../../models/users";
 import {Router} from "@angular/router";
 
@@ -11,8 +11,9 @@ export class AuthService {
 
   private userStorage: IUser[] = [];
   private currentUser: IUser | null = null;
-  router = inject(Router)
-  constructor() {
+  constructor(
+    private router: Router,
+  ) {
     if (this.isAuthenticated) {
       this.router.navigate(['tickets']);
       return
@@ -40,6 +41,10 @@ export class AuthService {
     return !!this.currentUser;
   }
 
+  get user(): IUser | null {
+    return this.currentUser;
+  }
+
   authUser(login: string, password: string, isRememberMe: boolean): true | string {
     const user = this.getUser(login);
     if (!user) {
@@ -53,12 +58,18 @@ export class AuthService {
   }
 
   addUser(user: IUser, isRememberMe?: boolean): true | string {
-    console.log('addUser', user, isRememberMe)
     if (this.getUser(user.login)) {
       return 'User already exists';
     }
     this.userStorage.push(user);
     this.auth(user, isRememberMe)
     return true;
+  }
+
+  logout() {
+    this.userStorage = this.userStorage.filter(({ login }) => login === this.currentUser?.login);
+    this.currentUser = null;
+    localStorage.removeItem(LOCAL_STORAGE_NAME);
+    this.router.navigate(['auth']);
   }
 }

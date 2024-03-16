@@ -1,0 +1,13 @@
+<input class="m-3" type="text" pInputText placeholder="Search" [(ngModel)]="search"/>
+<div class="d-flex flex-wrap justify-content-around">
+
+  <div *ngFor="let item of filteredTickets" class="m-2 col-3">
+    <p-card header="{{item.name}}" subheader="{{item.price}}" styleClass="p-card-shadow">
+      <ng-template pTemplate="header">
+        <img alt="Card" src="/assets/img/{{item.img}}">
+      </ng-template>
+      <p>{{item.description}}</p>
+    </p-card>
+
+  </div>
+</div>
