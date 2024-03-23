@@ -10,10 +10,19 @@ const authGuard = () => {
   return true;
 }
 
+const authRedirect = () => {
+  const router = inject(Router)
+  if (inject(AuthService).isAuthenticated) {
+    router.navigate(['tickets']);
+  }
+  return true;
+}
+
 const routes: Routes = [
   {
     path: 'auth',
-    loadChildren: ()  => import('./pages/auth/auth.module').then(m => m.AuthModule)
+    loadChildren: ()  => import('./pages/auth/auth.module').then(m => m.AuthModule),
+    canActivate: [authRedirect]
   },
 
   {

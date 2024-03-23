@@ -13,12 +13,20 @@ export class TicketItemComponent implements OnInit {
   isNotFound: boolean = false;
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private ticketStorage: TicketStorageService
   ) { }
 
   ngOnInit(): void {
-    this.ticketStorage.fetchTickets();
+    this.ticketStorage.fetchTickets().subscribe(this.setCurrentTicket.bind(this));
+    this.setCurrentTicket();
+  }
+
+  ngOnChange() {
+    this.setCurrentTicket();
+  }
+
+  setCurrentTicket() {
+
     const routerId = this.route.snapshot.paramMap.get('id');
 
     if (routerId) {
@@ -27,6 +35,7 @@ export class TicketItemComponent implements OnInit {
         this.isNotFound = true;
         return;
       }
+      this.isNotFound = false;
       this.ticket = ticket;
     }
   }

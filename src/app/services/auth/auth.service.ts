@@ -15,7 +15,6 @@ export class AuthService {
     private router: Router,
   ) {
     if (this.isAuthenticated) {
-      this.router.navigate(['tickets']);
       return
     }
     const storedUser: IUser | null = JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME) || 'null');
@@ -34,6 +33,10 @@ export class AuthService {
     if (isRememberMe) {
       localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(user));
     }
+  }
+
+  private authAndRedirect(user: IUser, isRememberMe?: boolean) {
+    this.auth(user, isRememberMe);
     this.router.navigate(['tickets']);
   }
 
@@ -53,7 +56,7 @@ export class AuthService {
     if (user.password !== password) {
       return 'Wrong password';
     }
-    this.auth(user, isRememberMe)
+    this.authAndRedirect(user, isRememberMe)
     return true;
   }
 
@@ -62,7 +65,7 @@ export class AuthService {
       return 'User already exists';
     }
     this.userStorage.push(user);
-    this.auth(user, isRememberMe)
+    this.authAndRedirect(user, isRememberMe)
     return true;
   }
 

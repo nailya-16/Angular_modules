@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {ITour} from "../../models/tours";
 import {TicketService} from "../ticket/ticket.service";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -19,13 +20,19 @@ export class TicketStorageService {
 
   fetchTickets (force?: boolean) {
     if (this.ticketStorage.length && !force) {
-      return;
+      return new Observable<ITour[]>((subscriber) => {
+        subscriber.next(this.ticketStorage);
+        subscriber.complete();
+      });
     }
-    this.ticketService.getTickets().subscribe(
+    const observ = this.ticketService.getTickets()
+    observ.subscribe(
       (data) => {
         this.ticketStorage = data;
       }
     )
+
+    return observ;
   }
 
   setStorage(data: ITour[]): void {
