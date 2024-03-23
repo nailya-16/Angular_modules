@@ -1,8 +1,28 @@
-<input class="m-3" type="text" pInputText placeholder="Search" [(ngModel)]="search"/>
-<div class="d-flex flex-wrap justify-content-around">
+<div class="p-inputgroup px-3">
+  <input type="text" pInputText placeholder="Search" [(ngModel)]="search"/>
+  <span class="p-inputgroup-addon">{{tourWrap.childElementCount}} showed</span>
+  <span class="p-inputgroup-addon">idx {{blockDirective.activeIndex}} is active</span>
+</div>
 
-  <div *ngFor="let item of filteredTickets" class="m-2 col-3">
-    <p-card header="{{item.name}}" subheader="{{item.price}}" styleClass="p-card-shadow">
+<div
+  #tourWrap
+  #blockDirective='blockStyle'
+  class="d-flex flex-wrap justify-content-around align-items-stretch"
+  appBlockStyle
+  [selector]="'.ticket-item'"
+  [initFirst]="true"
+  [tickets]="tickets"
+>
+  <div
+    class="m-2 col-3 ticket-item align-self-stretch"
+    *ngFor="let item of filteredTickets"
+  >
+    <p-card
+      header="{{item.name}}"
+      subheader="{{item.price}}"
+      styleClass="p-card-shadow"
+      (click)="goToTicket(item)"
+    >
       <ng-template pTemplate="header">
         <img alt="Card" src="/assets/img/{{item.img}}">
       </ng-template>

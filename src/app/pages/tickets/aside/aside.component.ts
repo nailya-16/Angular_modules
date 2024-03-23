@@ -7,10 +7,11 @@ import {IMenuType} from "../../../models/menu";
   styleUrls: ['./aside.component.scss']
 })
 export class AsideComponent implements OnInit {
-  @Output() updateMenuType: EventEmitter<IMenuType> = new EventEmitter()
   menuTypes: IMenuType[];
   selectedMenuType: IMenuType
   constructor() { }
+
+  @Output() updateMenuType: EventEmitter<IMenuType> = new EventEmitter()
 
   ngOnInit(): void {
     this.menuTypes = [
@@ -20,7 +21,6 @@ export class AsideComponent implements OnInit {
   }
 
   onChangeType(ev: {ev: Event, value: IMenuType}): void {
-    console.log('ev', ev)
     this.updateMenuType.emit(ev.value);
   }
 }

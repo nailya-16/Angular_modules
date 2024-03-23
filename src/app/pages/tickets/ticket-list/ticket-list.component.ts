@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {TicketService} from "../../../services/ticket/ticket.service";
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ITour} from "../../../models/tours";
+import {TicketStorageService} from "../../../services/ticket-storage/ticket-storage.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-ticket-list',
@@ -8,26 +9,36 @@ import {ITour} from "../../../models/tours";
   styleUrls: ['./ticket-list.component.scss']
 })
 export class TicketListComponent implements OnInit {
-  tickets: ITour[];
   search: string = '';
 
-  constructor(private ticketService: TicketService) {
+  @ViewChild('tourWrap') tourWrap: ElementRef;
+  constructor(
+    private router: Router,
+    private ticketStorage: TicketStorageService
+              ) {
+  }
+
+  get tickets() {
+    return this.ticketStorage.tickets;
   }
 
   get filteredTickets() {
     if (!this.search) {
-      return this.tickets;
+      return this.ticketStorage.tickets;
     }
     const search = this.search.toLowerCase()
-    return this.tickets.filter(({name}) => name.toLowerCase().includes(search));
+    return this.ticketStorage.tickets.filter(({name}) => name.toLowerCase().includes(search));
   }
 
   ngOnInit(): void {
-    this.ticketService.getTickets().subscribe(
-      (data) => {
-        this.tickets = data;
-      }
-    )
+    this.ticketStorage.fetchTickets();
   }
 
+  ngAfterViewInit() {
+    this.tourWrap
+  }
+
+  goToTicket(item: ITour) {
+    this.router.navigate([`/tickets/ticket/${item.id}`]);
+  }
 }

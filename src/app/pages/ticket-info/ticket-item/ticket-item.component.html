@@ -1,0 +1,23 @@
+<p-button
+  label="Back"
+  styleClass="p-button-link"
+  routerLink="/tickets/ticket-list"
+></p-button>
+
+<p-card
+  *ngIf="!isNotFound"
+  header="{{ticket.name}}"
+  subheader="{{ticket.price}}"
+  styleClass="p-card-shadow col-3"
+>
+  <ng-template pTemplate="header">
+    <img alt="Card" src="/assets/img/{{ticket.img}}">
+  </ng-template>
+  <p>{{ticket.description}}</p>
+</p-card>
+
+<div
+  *ngIf="isNotFound"
+>
+  Tour Not Found
+</div>

@@ -13,6 +13,7 @@ import {ButtonModule} from "primeng/button";
 import {DropdownModule} from "primeng/dropdown";
 import {FormsModule} from "@angular/forms";
 import {InputTextModule} from "primeng/inputtext";
+import {BlockStyleDirective} from "../../directive/block-style.directive";
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import {InputTextModule} from "primeng/inputtext";
     HeaderComponent,
     FooterComponent,
     TicketListComponent,
-    AsideComponent
+    AsideComponent,
+    BlockStyleDirective
   ],
   imports: [
     CommonModule,
