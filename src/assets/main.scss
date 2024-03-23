@@ -1,18 +1,2 @@
 @import 'general.scss';
 @import 'primeng-custom';
-
-
-.ticket-item {
-  cursor: pointer;
-  &.active {
-    .p-card {
-      box-shadow: 0 2px 1px -1px rgba(255, 0, 0, 0.8), 0 1px 1px 0 rgba(255, 0, 0, 0.5), 0 1px 3px 0 rgba(255, 0, 0, 0.5);
-    }
-  }
-
-  .p-card-shadow {
-    height: 100%
-  }
-}
-
-

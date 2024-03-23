@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {ITour} from "../../../models/tours";
 import {TicketStorageService} from "../../../services/ticket-storage/ticket-storage.service";
 import {Router} from "@angular/router";
@@ -6,7 +6,8 @@ import {Router} from "@angular/router";
 @Component({
   selector: 'app-ticket-list',
   templateUrl: './ticket-list.component.html',
-  styleUrls: ['./ticket-list.component.scss']
+  styleUrls: ['./ticket-list.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class TicketListComponent implements OnInit {
   search: string = '';
