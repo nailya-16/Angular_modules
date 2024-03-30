@@ -1,11 +1,10 @@
 <div class="p-inputgroup px-3">
   <input type="text" pInputText placeholder="Search" [(ngModel)]="search"/>
-  <span class="p-inputgroup-addon">{{tourWrap.childElementCount}} showed</span>
+  <span class="p-inputgroup-addon">{{filteredTickets.length}} showed</span>
   <span class="p-inputgroup-addon">idx {{blockDirective.activeIndex}} is active</span>
 </div>
 
 <div
-  #tourWrap
   #blockDirective='blockStyle'
   class="d-flex flex-wrap justify-content-around align-items-stretch"
   appBlockStyle

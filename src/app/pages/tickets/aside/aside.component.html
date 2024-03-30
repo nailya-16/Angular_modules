@@ -5,3 +5,16 @@
   (onChange)="onChangeType($event)"
 >
 </p-dropdown>
+
+<div class="mt-3">
+  <p-dropdown
+    class="mt-3"
+    [options]="tourTypes"
+    optionLabel="label"
+    (onChange)="changeTourType($event)">
+  </p-dropdown>
+</div>
+
+<div class="mt-3">
+  <p-calendar (onSelect)="selectDate($event)"></p-calendar>
+</div>
