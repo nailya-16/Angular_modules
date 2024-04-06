@@ -11,6 +11,7 @@ export class AuthService {
 
   private userStorage: IUser[] = [];
   private currentUser: IUser | null = null;
+
   constructor(
     private router: Router,
   ) {
@@ -28,7 +29,7 @@ export class AuthService {
     return this.userStorage.find((user) => login === user.login) || null;
   }
 
-  private auth (user: IUser, isRememberMe?: boolean) {
+  private auth(user: IUser, isRememberMe?: boolean) {
     this.currentUser = user;
     if (isRememberMe) {
       localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(user));
@@ -46,6 +47,10 @@ export class AuthService {
 
   get user(): IUser | null {
     return this.currentUser;
+  }
+
+  get token(): string | null {
+    return this.isAuthenticated ? '12345' : null;
   }
 
   authUser(login: string, password: string, isRememberMe: boolean): true | string {
@@ -70,7 +75,7 @@ export class AuthService {
   }
 
   logout() {
-    this.userStorage = this.userStorage.filter(({ login }) => login === this.currentUser?.login);
+    this.userStorage = this.userStorage.filter(({login}) => login === this.currentUser?.login);
     this.currentUser = null;
     localStorage.removeItem(LOCAL_STORAGE_NAME);
     this.router.navigate(['auth']);

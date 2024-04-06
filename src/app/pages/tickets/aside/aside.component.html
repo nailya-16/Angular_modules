@@ -16,5 +16,21 @@
 </div>
 
 <div class="mt-3">
-  <p-calendar (onSelect)="selectDate($event)"></p-calendar>
+  <p-calendar
+    (onSelect)="selectDate($event)"
+    (onClearClick)="selectDate($event)"
+    [showButtonBar]="true"
+  ></p-calendar>
 </div>
+
+<div class="mt-3">
+  <p-button
+    type="submit"
+    label="Error"
+    (onClick)="initRestError()"
+  >
+  </p-button>
+
+</div>
+
+<p-toast position="top-left"></p-toast>

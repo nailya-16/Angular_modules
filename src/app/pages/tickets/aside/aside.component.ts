@@ -2,6 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {IMenuType} from "../../../models/menu";
 import {ITourTypeSelect} from "../../../models/tours";
 import {TicketService} from "../../../services/ticket/ticket.service";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-aside',
@@ -19,7 +20,8 @@ export class AsideComponent implements OnInit {
   ]
 
   constructor(
-    private ticketService: TicketService
+    private ticketService: TicketService,
+    private messageService: MessageService
   ) {
   }
 
@@ -40,7 +42,19 @@ export class AsideComponent implements OnInit {
     this.ticketService.updateTour(ev.value)
   }
 
-  selectDate(ev: string) {
-    this.ticketService.updateTour({date: ev})
+  selectDate(ev: Date | PointerEvent) {
+    const selected = ev instanceof PointerEvent ? undefined : ev
+    this.ticketService.updateTour({date: selected})
+  }
+
+  initRestError(): void {
+    this.ticketService.getError().subscribe({
+      next: (data) => {
+      },
+      error: (err) => {
+        console.log('err', err)
+        this.messageService.add({severity: 'error', summary: err.error});
+      }
+    });
   }
 }

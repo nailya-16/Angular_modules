@@ -21,3 +21,74 @@
 >
   Tour Not Found
 </div>
+
+<div class="mt-4" *ngIf="!isNotFound">
+  <h4>Personal info</h4>
+  <form class="mt-3" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <div class="mt-3">
+      <span class="mx-3">Name</span>
+      <input
+        type="text"
+        pInputText
+        class="mt-3"
+        formControlName="firstName"
+      />
+    </div>
+    <div class="mt-3">
+      <span class="mx-3">Last name</span>
+      <input
+        type="text"
+        pInputText
+        class="mt-3"
+        formControlName="lastName"
+      />
+    </div>
+    <div class="mt-3">
+      <span class="mx-3">Card number</span>
+      <input
+        type="text"
+        pInputText
+        class="mt-3"
+        formControlName="cardNumber"
+      />
+    </div>
+    <div class="mt-3">
+      <span class="mx-3">Birthday</span>
+      <p-calendar
+        class="mt-3"
+        (onSelect)="selectDate($event)"
+        (onClearClick)="selectDate($event)"
+        [showButtonBar]="true"
+        formControlName="birthday"
+      ></p-calendar>
+    </div>
+    <div class="mt-3">
+      <span class="mx-3">Age</span>
+      <input
+        type="number"
+        pInputNumber
+        class="mt-3"
+        formControlName="age"
+      />
+    </div>
+    <div class="mt-3">
+      <span class="mx-3">Citizenship</span>
+      <input
+        type="text"
+        pInputText
+        class="mt-3"
+        formControlName="citizenship"
+      />
+    </div>
+
+    <div class="mt-4">
+      <p-button
+        type="submit"
+        label="Order"
+        [disabled]="!userForm.valid"
+      >
+      </p-button>
+    </div>
+
+  </form>
+</div>

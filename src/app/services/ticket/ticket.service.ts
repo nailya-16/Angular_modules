@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {TicketRestService} from "../ticket-rest/ticket-rest.service";
-import {Observable, Subject} from "rxjs";
+import {map, Observable, Subject} from "rxjs";
 import {ITour, ITourTypeSelect} from "../../models/tours";
 
 @Injectable({
@@ -14,7 +14,9 @@ export class TicketService {
   }
 
   getTickets(): Observable<ITour[]> {
-    return this.ticketServiceRest.getTickets();
+    return this.ticketServiceRest.getTickets().pipe(map((items) => {
+      return items.concat(items.filter(({type}) => type === 'single'));
+    }));
   }
 
   getTicketTypeObservable() {
@@ -23,5 +25,9 @@ export class TicketService {
 
   updateTour(type: ITourTypeSelect) {
     this.ticketSubject.next(type);
+  }
+
+  getError() {
+    return this.ticketServiceRest.getRestError();
   }
 }
