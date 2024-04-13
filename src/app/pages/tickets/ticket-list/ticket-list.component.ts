@@ -3,7 +3,7 @@ import {ITour, ITourTypeSelect} from "../../../models/tours";
 import {TicketStorageService} from "../../../services/ticket-storage/ticket-storage.service";
 import {Router} from "@angular/router";
 import {TicketService} from "../../../services/ticket/ticket.service";
-import {Subscription} from "rxjs";
+import {debounceTime, fromEvent, Subscription} from "rxjs";
 
 @Component({
   selector: 'app-ticket-list',
@@ -18,6 +18,9 @@ export class TicketListComponent implements OnInit {
 
 
   @ViewChild('tourWrap') tourWrap: ElementRef;
+  @ViewChild('ticketSearch') ticketSearch: ElementRef;
+
+  searchTicketSub: Subscription;
 
   constructor(
     private router: Router,
@@ -50,10 +53,14 @@ export class TicketListComponent implements OnInit {
 
   ngOnDestroy() {
     this.tourUnsubscriber.unsubscribe();
+    this.searchTicketSub.unsubscribe();
   }
 
   ngAfterViewInit() {
-    this.tourWrap
+    const fromEventObserver = fromEvent(this.ticketSearch.nativeElement, 'keyup', {passive: true});
+    this.searchTicketSub = fromEventObserver.pipe(debounceTime(200)).subscribe((ev) => {
+      console.log('changed search value', ev)
+    })
   }
 
   goToTicket(item: ITour) {

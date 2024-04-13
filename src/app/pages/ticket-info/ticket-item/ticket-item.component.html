@@ -92,3 +92,18 @@
 
   </form>
 </div>
+
+<div class="mt-4 col-3" *ngIf="!isNotFound">
+  <h4>Similar tours</h4>
+  <p-carousel [value]="nearestTours">
+    <ng-template pTemplate="header"></ng-template>
+    <ng-template let-tour pTemplate="item">
+      {{tour.name}} ({{getTourCountry(tour)}})
+      <div>
+        <img class="w-100 h-100" src="/assets/img/{{tour.img}}">
+      </div>
+    </ng-template>
+
+  </p-carousel>
+
+</div>

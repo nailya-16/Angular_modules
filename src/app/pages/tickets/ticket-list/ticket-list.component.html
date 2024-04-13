@@ -1,5 +1,5 @@
 <div class="p-inputgroup px-3">
-  <input type="text" pInputText placeholder="Search" [(ngModel)]="search"/>
+  <input type="text" pInputText placeholder="Search" [(ngModel)]="search" #ticketSearch/>
   <span class="p-inputgroup-addon">{{filteredTickets.length}} showed</span>
   <span class="p-inputgroup-addon">idx {{blockDirective.activeIndex}} is active</span>
 </div>

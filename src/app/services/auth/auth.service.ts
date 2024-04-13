@@ -80,4 +80,13 @@ export class AuthService {
     localStorage.removeItem(LOCAL_STORAGE_NAME);
     this.router.navigate(['auth']);
   }
+
+  changePassword(password: string) {
+    if (!this.currentUser) {
+      return
+    }
+    this.currentUser.password = password;
+    const dbUser = this.userStorage.find(({login}) => login === this.currentUser?.login)!;
+    dbUser.password = password
+  }
 }

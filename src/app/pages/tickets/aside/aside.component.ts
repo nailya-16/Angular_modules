@@ -3,6 +3,7 @@ import {IMenuType} from "../../../models/menu";
 import {ITourTypeSelect} from "../../../models/tours";
 import {TicketService} from "../../../services/ticket/ticket.service";
 import {MessageService} from "primeng/api";
+import {SettingsService} from "../../../services/settings/settings.service";
 
 @Component({
   selector: 'app-aside',
@@ -21,7 +22,8 @@ export class AsideComponent implements OnInit {
 
   constructor(
     private ticketService: TicketService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private settingsService: SettingsService
   ) {
   }
 
@@ -56,5 +58,11 @@ export class AsideComponent implements OnInit {
         this.messageService.add({severity: 'error', summary: err.error});
       }
     });
+  }
+
+  initSettingsData() {
+    this.settingsService.loadUserSettingsSubject({
+      saveToken: false
+    })
   }
 }

@@ -1,10 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {TicketStorageService} from "../../../services/ticket-storage/ticket-storage.service";
-import {ITour} from "../../../models/tours";
+import {INearestTour, ITour, ITourLocation} from "../../../models/tours";
 import {IUser} from "../../../models/users";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../../services/auth/auth.service";
+import {forkJoin} from "rxjs";
+import {TicketService} from "../../../services/ticket/ticket.service";
 
 @Component({
   selector: 'app-ticket-item',
@@ -18,10 +20,14 @@ export class TicketItemComponent implements OnInit {
   user: IUser;
   userForm: FormGroup;
 
+  nearestTours: INearestTour[] = [];
+  tourLocations: ITourLocation[] = []
+
   constructor(
     private route: ActivatedRoute,
     private ticketStorage: TicketStorageService,
     private authService: AuthService,
+    private ticketService: TicketService
   ) {
   }
 
@@ -39,6 +45,15 @@ export class TicketItemComponent implements OnInit {
       age: new FormControl(22),
       citizenship: new FormControl(''),
     })
+
+    forkJoin([this.ticketService.getNearestTours(), this.ticketService.getTourLocations()]).subscribe(([tours, locations]) => {
+      this.nearestTours = tours;
+      this.tourLocations = locations
+    })
+  }
+
+  getTourCountry(tour: INearestTour) {
+    return this.tourLocations.find(({id}) => tour.locationId === id)?.name || '-';
   }
 
   ngOnChange() {

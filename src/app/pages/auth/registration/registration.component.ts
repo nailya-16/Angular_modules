@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MessageService} from 'primeng/api';
 import {AuthService} from "../../../services/auth/auth.service";
 import {IUser} from "../../../models/users";
+import {ConfigService} from "../../../services/config/config.service";
 
 @Component({
   selector: 'app-registration',
@@ -15,10 +16,16 @@ export class RegistrationComponent implements OnInit {
   cardNumber: string = '';
   email: string;
   isRemember: boolean;
+  isShowCardNumber: boolean;
 
-  constructor(private authService: AuthService, private messageService: MessageService) { }
+  constructor(
+    private authService: AuthService,
+    private messageService: MessageService
+  ) {
+  }
 
   ngOnInit(): void {
+    this.isShowCardNumber = ConfigService.config.useUserCard
   }
 
   ngOnDestroy(): void {
@@ -27,7 +34,7 @@ export class RegistrationComponent implements OnInit {
 
   onAuth(): void {
     if (this.password !== this.repeatPassword) {
-      this.messageService.add({severity:'error', summary: 'Passwords are not the same'});
+      this.messageService.add({severity: 'error', summary: 'Passwords are not the same'});
       return
     }
 
@@ -37,10 +44,10 @@ export class RegistrationComponent implements OnInit {
     }
     const result = this.authService.addUser(user, this.isRemember);
     if (result !== true) {
-      this.messageService.add({severity:'error', summary: result});
+      this.messageService.add({severity: 'error', summary: result});
       return;
     }
-    this.messageService.add({severity:'success', summary: 'You are registered and authorized!'});
+    this.messageService.add({severity: 'success', summary: 'You are registered and authorized!'});
   }
 
 }

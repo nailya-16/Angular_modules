@@ -30,4 +30,13 @@ export class TicketService {
   getError() {
     return this.ticketServiceRest.getRestError();
   }
+
+  getNearestTours() {
+    return this.ticketServiceRest.getNearestTickets();
+  }
+
+  getTourLocations() {
+    return this.ticketServiceRest.getLocationList();
+  }
 }
+
