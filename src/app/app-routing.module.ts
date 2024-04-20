@@ -21,13 +21,12 @@ const authRedirect = () => {
 const routes: Routes = [
   {
     path: 'auth',
-    loadChildren: ()  => import('./pages/auth/auth.module').then(m => m.AuthModule),
+    loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule),
     canActivate: [authRedirect]
   },
-
   {
     path: 'tickets',
-    loadChildren: ()  => import('./pages/tickets/tickets.module').then(m => m.TicketsModule),
+    loadChildren: () => import('./pages/tickets/tickets.module').then(m => m.TicketsModule),
     canActivate: [authGuard],
   },
   {
@@ -43,4 +42,5 @@ const routes: Routes = [
   })],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
