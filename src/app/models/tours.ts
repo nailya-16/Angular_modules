@@ -17,6 +17,7 @@ export interface ITourTypeSelect {
 
 export interface INearestTour {
   locationId: string
+  region?: ITourLocation
 }
 
 export interface ITourLocation {

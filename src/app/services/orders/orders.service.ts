@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, map, of, switchAll, switchMap, withLatestFrom} from "rxjs";
 import {ORDERMOCK, TOrder, TOrderProps} from "../../shared/mock/orders";
 import {TreeNode} from "primeng/api";
+import {TicketRestService} from "../ticket-rest/ticket-rest.service";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,9 @@ export class OrdersService {
   private groupOrders = new BehaviorSubject(false);
   readonly groupOrders$ = this.groupOrders.asObservable();
 
-  constructor() {
+  constructor(
+    private ticketServiceRest: TicketRestService
+  ) {
   }
 
   getOrders() {
@@ -53,6 +56,10 @@ export class OrdersService {
     }
     treeNodeObj.children = data.map(e => ({data: e}))
     return treeNodeObj;
+  }
+
+  getRandomNearestEvent(type: number) {
+    return this.ticketServiceRest.getRandomNearestEvent(type)
   }
 
 }

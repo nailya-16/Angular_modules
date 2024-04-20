@@ -26,4 +26,12 @@ export class TicketRestService {
   getLocationList() {
     return this.http.get<ITourLocation[]>('https://62b9e756ff109cd1dc9dae16.mockapi.io/apiv/v1/location/');
   }
+
+  getRandomNearestEvent(type: number) {
+    return this.http.get(`/assets/mocks/nearestTours${type + 1}.json`)
+  }
+
+  sendTourData(data: any) {
+    return this.http.post(`/`, data)
+  }
 }

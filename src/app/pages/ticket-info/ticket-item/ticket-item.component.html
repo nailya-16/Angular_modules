@@ -5,7 +5,7 @@
 ></p-button>
 
 <p-card
-  *ngIf="!isNotFound"
+  *ngIf="!isNotFound; else notFound"
   header="{{ticket.name}}"
   subheader="{{ticket.price}}"
   styleClass="p-card-shadow col-3"
@@ -16,11 +16,14 @@
   <p>{{ticket.description}}</p>
 </p-card>
 
-<div
-  *ngIf="isNotFound"
->
-  Tour Not Found
-</div>
+<ng-template #notFound>
+  <div
+    *ngIf="isNotFound"
+  >
+    Tour Not Found
+  </div>
+</ng-template>
+
 
 <div class="mt-4" *ngIf="!isNotFound">
   <h4>Personal info</h4>
@@ -93,9 +96,17 @@
   </form>
 </div>
 
-<div class="mt-4 col-3" *ngIf="!isNotFound">
+<div class="mt-4 col-3">
   <h4>Similar tours</h4>
-  <p-carousel [value]="nearestTours">
+  <div>
+    <input
+      #ticketSearch
+      pInputText
+      type="text"
+      [(ngModel)]="ticketSearchValue"
+    />
+  </div>
+  <p-carousel [value]="nearestTours" *ngIf="!isNotFound">
     <ng-template pTemplate="header"></ng-template>
     <ng-template let-tour pTemplate="item">
       {{tour.name}} ({{getTourCountry(tour)}})

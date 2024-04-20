@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {TicketStorageService} from "../../../services/ticket-storage/ticket-storage.service";
 import {INearestTour, ITour, ITourLocation} from "../../../models/tours";
 import {IUser} from "../../../models/users";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../../services/auth/auth.service";
-import {forkJoin} from "rxjs";
+import {forkJoin, fromEvent, Subscription} from "rxjs";
 import {TicketService} from "../../../services/ticket/ticket.service";
 
 @Component({
@@ -22,6 +22,11 @@ export class TicketItemComponent implements OnInit {
 
   nearestTours: INearestTour[] = [];
   tourLocations: ITourLocation[] = []
+  ticketSearchValue: string = '';
+  @ViewChild('ticketSearch') ticketSearch: ElementRef;
+  private ticketSearchSubsc: Subscription;
+  private ticketRestSub: Subscription;
+  searchTypes = [1, 2, 3];
 
   constructor(
     private route: ActivatedRoute,
@@ -47,9 +52,22 @@ export class TicketItemComponent implements OnInit {
     })
 
     forkJoin([this.ticketService.getNearestTours(), this.ticketService.getTourLocations()]).subscribe(([tours, locations]) => {
-      this.nearestTours = tours;
-      this.tourLocations = locations
+      this.tourLocations = locations;
+      this.nearestTours = this.ticketService.transformData(tours, locations);
     })
+  }
+
+  ngAfterViewInit() {
+    console.log(this.ticketSearch)
+    if (!this.ticketSearch) {
+      return;
+    }
+    const fromEventObserver = fromEvent(this.ticketSearch.nativeElement, 'keyup');
+    this.ticketSearchSubsc = fromEventObserver.subscribe((e) => this.initSearchTour())
+  }
+
+  ngOnDestroy() {
+    this.ticketSearchSubsc?.unsubscribe()
   }
 
   getTourCountry(tour: INearestTour) {
@@ -73,6 +91,8 @@ export class TicketItemComponent implements OnInit {
       this.isNotFound = false;
       this.ticket = ticket;
     }
+
+
   }
 
   selectDate(ev: Date | PointerEvent) {
@@ -84,6 +104,18 @@ export class TicketItemComponent implements OnInit {
 
   onSubmit() {
     console.log(this.userForm.value)
+    this.ticketService.sendTourData(this.userForm.value).subscribe(console.log)
   }
 
+  initSearchTour() {
+    console.log('initSearchTour')
+    const type = Math.floor(Math.random() * this.searchTypes.length)
+    if (this.ticketRestSub && !this.ticketRestSub.closed) {
+      this.ticketRestSub.unsubscribe();
+    }
+
+    this.ticketRestSub = this.ticketService.getRandomNearestEvent(type).subscribe((data: any) => {
+      this.nearestTours = this.ticketService.transformData([data], this.tourLocations)
+    })
+  }
 }
