@@ -14,17 +14,10 @@ export class AppComponent {
     private test: ObservableExampleService,
     private configService: ConfigService
   ) {
-    test.initObservable()
+
   }
 
   ngOnInit() {
-    const myObservable = this.test.getObservable();
-    myObservable.subscribe((data) => {
-      console.log('first', data)
-    })
 
-    myObservable.subscribe((data) => {
-      console.log('second', data)
-    })
   }
 }

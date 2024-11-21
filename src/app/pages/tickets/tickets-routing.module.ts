@@ -2,11 +2,13 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {TicketsComponent} from "./tickets.component";
 import {TicketListComponent} from "./ticket-list/ticket-list.component";
+import {AccessGuard} from "../../shared/guards/access.guard";
 
 const routes: Routes = [
   {
     path: '',
     component: TicketsComponent,
+    canActivateChild: [AccessGuard],
     children: [
       {
         path: "",

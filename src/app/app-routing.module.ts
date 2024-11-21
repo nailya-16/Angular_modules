@@ -1,6 +1,7 @@
 import {inject, NgModule} from '@angular/core';
 import {PreloadAllModules, Router, RouterModule, Routes} from '@angular/router';
 import {AuthService} from "./services/auth/auth.service";
+import {AuthGuard} from "./shared/guards/auth.guard";
 
 const authGuard = () => {
   const router = inject(Router)
@@ -27,7 +28,7 @@ const routes: Routes = [
   {
     path: 'tickets',
     loadChildren: () => import('./pages/tickets/tickets.module').then(m => m.TicketsModule),
-    canActivate: [authGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: '**',

@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {IUser} from "../../models/users";
 import {Router} from "@angular/router";
+import {UserAccessService} from "../user-access.service";
+import {UserRules} from "../../../assets/mocks/rules";
 
 const LOCAL_STORAGE_NAME = 'currentUser'
 
@@ -14,6 +16,7 @@ export class AuthService {
 
   constructor(
     private router: Router,
+    private accessService: UserAccessService
   ) {
     if (this.isAuthenticated) {
       return
@@ -22,6 +25,7 @@ export class AuthService {
     if (storedUser) {
       this.userStorage.push(storedUser);
       this.auth(storedUser)
+      this.accessService.initAccess(UserRules);
     }
   }
 
@@ -41,16 +45,20 @@ export class AuthService {
     this.router.navigate(['tickets']);
   }
 
-  get isAuthenticated(): boolean {
-    return !!this.currentUser;
+  get isAuthenticated(): boolean  {
+    return !!this.currentUser ;
   }
+  get isUserInStore(): boolean  {
+    return !!localStorage.getItem(LOCAL_STORAGE_NAME);
+  }
+
 
   get user(): IUser | null {
     return this.currentUser;
   }
 
   get token(): string | null {
-    return this.isAuthenticated ? '12345' : null;
+    return this.isAuthenticated ? 'my-token' : null;
   }
 
   authUser(login: string, password: string, isRememberMe: boolean): true | string {
