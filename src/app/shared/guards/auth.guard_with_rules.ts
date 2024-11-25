@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 import {Observable, of, switchMap} from 'rxjs';
 import {AuthService} from "../../services/auth/auth.service";
-import {UserAccessService} from "../../services/user-access.service";
-import {IUserRules} from "../../../assets/mocks/rules";
+import {UserAccessService} from "../../services/user-access/user-access.service";
+import {IUserRules} from "../mock/rules";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
     if (!this.authService.isAuthenticated) {
       this.router.navigate(['/auth']);
       return false;
-    } else if (this.authService.isUserInStore) {
+    } else {
       console.log('must send req')
       return this.accessService.getUserRules().pipe(
         switchMap((roles) => {
@@ -28,10 +28,7 @@ export class AuthGuard implements CanActivate {
           }
         })
       );
-    } else {
-      return this.authService.isAuthenticated
     }
-
   }
 
 }

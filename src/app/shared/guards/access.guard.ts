@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, RouterStateSnapshot, UrlTree} from '@angular/router';
 import { Observable } from 'rxjs';
-import {UserAccessService} from "../../services/user-access.service";
+import {UserAccessService} from "../../services/user-access/user-access.service";
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +13,10 @@ export class AccessGuard implements CanActivateChild {
   canActivateChild (
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-
-    console.log('route', route, 'state', state)
+    console.log('route', route, 'state', state);
     const routerFullPath = state.url;
-    return this.accessService.canWrite(routerFullPath);
+    console.log('this.accessService.canRead(routerFullPath);', this.accessService.canRead(routerFullPath))
+    return this.accessService.canRead(routerFullPath);
   }
 
 }

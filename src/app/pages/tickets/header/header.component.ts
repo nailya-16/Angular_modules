@@ -9,7 +9,12 @@ import {IMenuType} from "../../../models/menu";
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  @Input() menuType: IMenuType;
+  @Input() set menuType (type: IMenuType) {
+    console.log('new type', type)
+    this.settingsActive = this.menuType?.type === "extended";
+    this.items = this.initMenuItems();
+  };
+
   items: MenuItem[];
   time: Date;
   private timer: number;
@@ -18,7 +23,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService) {
   }
 
-  get userName() {
+  get userName(): string {
     return this.authService.user?.login || '';
   }
 
@@ -30,8 +35,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnChanges(ev: SimpleChanges): void {
-    this.settingsActive = this.menuType?.type === "extended";
-    this.items = this.initMenuItems();
+    // this.settingsActive = this.menuType?.type === "extended";
+    // this.items = this.initMenuItems();
   }
 
   ngOnDestroy() {

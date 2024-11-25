@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {IUser} from "../../models/users";
 import {Router} from "@angular/router";
-import {UserAccessService} from "../user-access.service";
-import {UserRules} from "../../../assets/mocks/rules";
+import {UserAccessService} from "../user-access/user-access.service";
+import {UserRules} from "../../shared/mock/rules";
 
-const LOCAL_STORAGE_NAME = 'currentUser'
+export const LOCAL_STORAGE_NAME = 'currentUser'
 
 @Injectable({
   providedIn: 'root'
@@ -23,9 +23,8 @@ export class AuthService {
     }
     const storedUser: IUser | null = JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME) || 'null');
     if (storedUser) {
-      this.userStorage.push(storedUser);
-      this.auth(storedUser)
-      this.accessService.initAccess(UserRules);
+      // this.userStorage.push(storedUser);
+      // this.auth(storedUser)
     }
   }
 
@@ -35,9 +34,14 @@ export class AuthService {
 
   private auth(user: IUser, isRememberMe?: boolean) {
     this.currentUser = user;
+    this.accessService.initAccess(UserRules);
     if (isRememberMe) {
       localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(user));
     }
+  }
+
+  setUser(user: IUser): void {
+    this.currentUser = user;
   }
 
   private authAndRedirect(user: IUser, isRememberMe?: boolean) {
@@ -46,7 +50,7 @@ export class AuthService {
   }
 
   get isAuthenticated(): boolean  {
-    return !!this.currentUser ;
+    return !!this.currentUser || !!localStorage.getItem(LOCAL_STORAGE_NAME);
   }
   get isUserInStore(): boolean  {
     return !!localStorage.getItem(LOCAL_STORAGE_NAME);
