@@ -7,14 +7,14 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss",
-          "skipTests": true
+          "style": "scss"
         },
         "@schematics/angular:guard": {
           "skipTests": true
         },
         "@schematics/angular:service": {
-          "flat": false
+          "flat": false,
+          "skipTests": true
         }
       },
       "root": "",
@@ -79,10 +79,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "ticketSales2022:build:production"
+              "browserTarget": "ticketSales2022:build:production"
             },
             "development": {
-              "buildTarget": "ticketSales2022:build:development"
+              "browserTarget": "ticketSales2022:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -90,7 +90,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "ticketSales2022:build"
+            "browserTarget": "ticketSales2022:build"
           }
         },
         "test": {

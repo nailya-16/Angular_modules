@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
-import {Observable, of, switchMap} from 'rxjs';
+import {delay, Observable, of, switchMap} from 'rxjs';
 import {AuthService} from "../../services/auth/auth.service";
 import {UserAccessService} from "../../services/user-access/user-access.service";
 import {IUserRules} from "../mock/rules";
@@ -18,10 +18,11 @@ export class AuthGuard implements CanActivate {
       this.router.navigate(['/auth']);
       return false;
     } else {
-      console.log('must send req')
       return this.accessService.getUserRules().pipe(
+        delay(200),
         switchMap((roles) => {
           if (Array.isArray(roles) && roles.length > 0) {
+            this.accessService.initAccess(roles);
             return of(true);
           } else {
             return of (false);

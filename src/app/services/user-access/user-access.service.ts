@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import {IUserRules, UserRules} from "../../shared/mock/rules";
-import { debounceTime, Observable, of} from "rxjs";
+import {debounce, debounceTime, Observable, of, timer} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserAccessService {
-  private accessMap = new Map(); // TODO создать тип для accessMap
+  private accessMap = new Map()  // TODO создать тип для accessMap
   constructor() { }
 
   initAccess(rules: Readonly<IUserRules[]>): void {
     if (Array.isArray(rules)) {
       rules.forEach((rule) => {
         const formattedString = this.formattedPath(rule.path);
-        this.accessMap.set(formattedString, rule.rules);
+        this.accessMap.set(formattedString, rule.rules)
       });
     }
   }
@@ -30,7 +30,6 @@ export class UserAccessService {
     return this.accessMap.get(formattedString)?.read;
   }
 
-
   formattedPath(path: string): string {
     if (typeof path === "string") {
       return path.replace(/\//g, " ").trim().replace(/\s/g, '.');
@@ -42,4 +41,3 @@ export class UserAccessService {
     return of(UserRules);
   }
 }
-
