@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import {debounceTime, delay, Observable, of, switchMap} from 'rxjs';
 import {AuthService, LOCAL_STORAGE_NAME} from "../../services/auth/auth.service";
 import {UserAccessService} from "../../services/user-access/user-access.service";
@@ -8,7 +8,7 @@ import {IUserRules} from "../mock/rules";
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class AuthGuard  {
   constructor(private authService: AuthService, private router: Router, private accessService: UserAccessService) {
   }
   canActivate(
