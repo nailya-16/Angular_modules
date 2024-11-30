@@ -19,7 +19,9 @@ export class UserAccessService {
   }
 
   canWrite(path: string): boolean {
+
     const formattedString = this.formattedPath(path);
+    console.log('formattedString', formattedString)
     return this.accessMap.get(formattedString)?.write;
   }
 

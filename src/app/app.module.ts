@@ -7,6 +7,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {RestInterceptorsService} from "./services/interceptors/rest-interceptors.service";
 import {ConfigService} from "./services/config/config.service";
+import { CanWriteDirective } from './directive/can-write.directive';
 
 function initializeApp(config: ConfigService) {
   return () => config.loadPromise().then(() => {
@@ -16,7 +17,7 @@ function initializeApp(config: ConfigService) {
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
 
   ],
   imports: [

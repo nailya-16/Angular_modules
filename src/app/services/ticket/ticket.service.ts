@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {TicketRestService} from "../ticket-rest/ticket-rest.service";
-import {map, Observable, Subject} from "rxjs";
+import {BehaviorSubject, map, Observable, Subject} from "rxjs";
 import {INearestTour, ITour, ITourLocation, ITourTypeSelect} from "../../models/tours";
 
 @Injectable({

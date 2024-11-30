@@ -17,6 +17,7 @@ import {BlockStyleDirective} from "../../directive/block-style.directive";
 import {CalendarModule} from "primeng/calendar";
 import {ToastModule} from "primeng/toast";
 import {MessageService} from "primeng/api";
+import {SharedModule} from "../../shared/shared.module";
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import {MessageService} from "primeng/api";
     InputTextModule,
     CalendarModule,
     ToastModule,
+    SharedModule
   ],
   providers: [
     MessageService
