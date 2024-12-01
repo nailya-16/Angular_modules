@@ -20,7 +20,7 @@ RUN npm run build
 
 FROM nginx
 COPY nginx.conf     /etc/nginx/nginx.conf
-COPY  /app/dist/ticket-sales2022 /app/share/nginx/html
+COPY  /app/dist/ticket-sales2022 /usr/share/nginx/html
 
 EXPOSE 3000
 
