@@ -24,5 +24,3 @@ COPY --from=build /app/dist/ticket-sales2022/ /usr/share/nginx/html
 
 EXPOSE 80
 
-# Start the app using serve command
-CMD [ "npm", "start"]
