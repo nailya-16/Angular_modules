@@ -20,7 +20,7 @@ RUN npm run build
 
 FROM nginx:1.17.1-alpine
 COPY nginx.conf     /etc/nginx/nginx.conf
-COPY --from=builder /app/dist/ticket-sales2022 /app/share/nginx/html
+COPY --from=build /app/dist/ticket-sales2022 /app/share/nginx/html
 
 EXPOSE 3000
 
