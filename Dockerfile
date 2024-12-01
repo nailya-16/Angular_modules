@@ -12,7 +12,8 @@ COPY package*.json ./
 
 
 # Install node packages, install serve, build the app, and remove dependencies at the end
-RUN npm install
+RUN npm install \
+     && npm install -g serve
 COPY . /app
 RUN npm run build
 EXPOSE 3000
