@@ -20,9 +20,9 @@ RUN npm run build
 
 FROM nginx
 COPY nginx.conf     /etc/nginx/nginx.conf
-COPY  ./dist/ticket-sales2022 /usr/share/nginx/html
+COPY --from=build /app/dist/ticket-sales2022/ /usr/share/nginx/html
 
-EXPOSE 3000
+EXPOSE 80
 
 # Start the app using serve command
 CMD [ "serve", "-s", "build" ]
