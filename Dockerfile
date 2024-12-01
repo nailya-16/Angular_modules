@@ -15,7 +15,12 @@ COPY package*.json ./
 RUN npm install \
      && npm install -g serve
 COPY . /app
-RUN npm run start
+RUN npm run build
+
+FROM nginx:1.15.8-alpine
+
+COPY --from=builder /dist/ticket-sales2022 /app/share/nginx/html
+
 EXPOSE 3000
 
 # Start the app using serve command
