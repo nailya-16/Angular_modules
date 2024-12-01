@@ -18,7 +18,7 @@ COPY . /app
 RUN npm run build
 
 
-FROM nginx:1.17.1-alpine
+FROM nginx
 COPY nginx.conf     /etc/nginx/nginx.conf
 COPY --from=build /app/dist/ticket-sales2022 /app/share/nginx/html
 
