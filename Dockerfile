@@ -15,7 +15,7 @@ COPY package*.json ./
 RUN npm install \
      && npm install -g serve
 COPY . /app
-RUN npm run build
+RUN npm run start
 EXPOSE 3000
 
 # Start the app using serve command
