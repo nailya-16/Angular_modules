@@ -3,28 +3,34 @@ import {IUser} from "../../models/users";
 import {Router} from "@angular/router";
 import {UserAccessService} from "../user-access/user-access.service";
 import {UserRules} from "../../shared/mock/rules";
+import {BehaviorSubject, Subject} from "rxjs";
 
-export const LOCAL_STORAGE_NAME = 'currentUser'
+export const LOCAL_STORAGE_NAME = 'currentUser';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private userSubject = new Subject();
+  user$ = this.userSubject.asObservable();
 
+  private userBehaviorSubject = new BehaviorSubject(null);
+  userBehavior$ = this.userBehaviorSubject.asObservable();
   private userStorage: IUser[] = [];
   private currentUser: IUser | null = null;
+
+  private userBasketSubject = new Subject();
+  basket$ = this.userBasketSubject.asObservable();
 
   constructor(
     private router: Router,
     private accessService: UserAccessService
   ) {
-    if (this.isAuthenticated) {
-      return
-    }
+
     const storedUser: IUser | null = JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME) || 'null');
     if (storedUser) {
-      // this.userStorage.push(storedUser);
-      // this.auth(storedUser)
+     //this.userStorage.push(storedUser);
+     this.auth(storedUser)
     }
   }
 
@@ -33,11 +39,23 @@ export class AuthService {
   }
 
   private auth(user: IUser, isRememberMe?: boolean) {
+    console.log('user', user)
     this.currentUser = user;
     this.accessService.initAccess(UserRules);
-    if (isRememberMe) {
-      localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(user));
-    }
+
+    localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(user));
+
+    // send user to Subject
+    this.userSubject.next(this.currentUser);
+  }
+
+  initUserToSubject(): void {
+    this.userSubject.next(this.currentUser);
+    this.userBehaviorSubject.next(this.currentUser);
+  }
+
+  addBasketToSubject(): void {
+    this.userBasketSubject.next('basket' +  Math.random());
   }
 
   setUser(user: IUser): void {

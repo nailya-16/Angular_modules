@@ -11,7 +11,7 @@ import {MenubarModule} from "primeng/menubar";
 import {CardModule} from 'primeng/card';
 import {ButtonModule} from "primeng/button";
 import {DropdownModule} from "primeng/dropdown";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {InputTextModule} from "primeng/inputtext";
 import {BlockStyleDirective} from "../../directive/block-style.directive";
 import {CalendarModule} from "primeng/calendar";
@@ -40,7 +40,8 @@ import {SharedModule} from "../../shared/shared.module";
     InputTextModule,
     CalendarModule,
     ToastModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule
   ],
   providers: [
     MessageService

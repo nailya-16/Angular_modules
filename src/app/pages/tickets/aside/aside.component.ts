@@ -4,6 +4,7 @@ import {ITourTypeSelect} from "../../../models/tours";
 import {TicketService} from "../../../services/ticket/ticket.service";
 import {MessageService} from "primeng/api";
 import {SettingsService} from "../../../services/settings/settings.service";
+import {AuthService} from "../../../services/auth/auth.service";
 
 @Component({
   selector: 'app-aside',
@@ -23,7 +24,8 @@ export class AsideComponent implements OnInit {
   constructor(
     private ticketService: TicketService,
     private messageService: MessageService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private userService: AuthService
   ) {
   }
 
@@ -43,7 +45,13 @@ export class AsideComponent implements OnInit {
   changeTourType(ev: { ev: Event, value: ITourTypeSelect }): void {
     this.ticketService.updateTour(ev.value)
   }
+  initUserInfo(): void {
+    this.userService.initUserToSubject();
+  }
 
+  addBasket(): void {
+    this.userService.addBasketToSubject();
+  }
   selectDate(ev: Date | PointerEvent) {
     const selected = ev instanceof PointerEvent ? undefined : ev
     this.ticketService.updateTour({date: selected})

@@ -3,6 +3,9 @@
   <span class="p-inputgroup-addon">{{filteredTickets.length}} showed</span>
   <span class="p-inputgroup-addon">idx {{blockDirective.activeIndex}} is active</span>
 </div>
+<div [formGroup]="inputForm">
+  Reactive form <input type="text" pInputText placeholder="Search" formControlName="inputControl"/>
+</div>
 
 <div
   #blockDirective='blockStyle'

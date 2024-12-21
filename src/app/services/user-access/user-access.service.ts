@@ -21,14 +21,11 @@ export class UserAccessService {
   canWrite(path: string): boolean {
 
     const formattedString = this.formattedPath(path);
-    console.log('formattedString', formattedString)
     return this.accessMap.get(formattedString)?.write;
   }
 
   canRead(path: string): boolean {
     const formattedString = this.formattedPath(path);
-    console.log('formattedString',formattedString)
-    console.log(' this.accessMap',  this.accessMap)
     return this.accessMap.get(formattedString)?.read;
   }
 
