@@ -4,6 +4,7 @@ import {CanWriteDirective} from "./can-write.directive";
 
 
 
+
 @NgModule({
   declarations: [CanWriteDirective],
   imports: [
