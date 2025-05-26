@@ -3,6 +3,7 @@ import {MessageService} from 'primeng/api';
 import {AuthService} from "../../../services/auth/auth.service";
 import {IUser} from "../../../models/users";
 import {ConfigService} from "../../../services/config/config.service";
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-registration',
@@ -20,7 +21,8 @@ export class RegistrationComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private http: HttpClient
   ) {
   }
 
@@ -38,11 +40,23 @@ export class RegistrationComponent implements OnInit {
       return
     }
 
-    const user: IUser = {
+    const userObj: IUser = {
       login: this.login,
-      password: this.password,
-    }
-    const result = this.authService.addUser(user, this.isRemember);
+      psw: this.password,
+      cardNumber: this.cardNumber,
+      email: this.email,
+    };
+
+    this.http.post<IUser>('http://localhost:3000/users/', userObj).subscribe(
+      (data) => {
+        this.messageService.add({severity:'success', summary:'Регистрация прошла успешно'});
+      },
+      () => {
+        this.messageService.add({severity:'warn', summary:'Пользователь уже зарегистрирован'});
+      }
+    );
+
+    const result = this.authService.addUser(userObj, this.isRemember);
     if (result !== true) {
       this.messageService.add({severity: 'error', summary: result});
       return;

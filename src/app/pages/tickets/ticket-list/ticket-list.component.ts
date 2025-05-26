@@ -64,6 +64,10 @@ export class TicketListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.ticketService.ticketUpdateSubject$.subscribe((data) => {
+      this.tickets = data;
+    })
+
     this.ticketStorage.fetchTickets();
     this.tourUnsubscriber = this.ticketService.getTicketTypeObservable().subscribe((data: ITourTypeSelect) => {
       if (data) {

@@ -10,6 +10,9 @@ export class TicketService {
   private ticketSubject = new Subject<ITourTypeSelect>()
   readonly $ticketType = this.ticketSubject.asObservable()
 
+  private ticketUpdateSubject = new Subject<ITour[]>();
+  readonly ticketUpdateSubject$ = this.ticketUpdateSubject.asObservable();
+
   constructor(private ticketServiceRest: TicketRestService) {
   }
 
@@ -25,6 +28,10 @@ export class TicketService {
 
   updateTour(type: ITourTypeSelect) {
     this.ticketSubject.next(type);
+  }
+
+  updateTicketList(data: ITour[]) {
+    this.ticketUpdateSubject.next(data);
   }
 
   getError() {
@@ -54,7 +61,7 @@ export class TicketService {
     return newTicketData;
   }
 
-  sendTourData(data: any) {
+  sendTourData(data: any): Observable<any> {
     return this.ticketServiceRest.sendTourData(data)
   }
 }

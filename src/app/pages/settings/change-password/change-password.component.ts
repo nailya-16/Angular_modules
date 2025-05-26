@@ -22,7 +22,7 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   onChange() {
-    if (this.oldPassword !== this.authService.user?.password) {
+    if (this.oldPassword !== this.authService.user?.psw) {
       this.messageService.add({severity: 'error', summary: 'Old password is wrong'});
       return;
     }

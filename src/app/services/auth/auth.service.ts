@@ -13,7 +13,7 @@ export const LOCAL_STORAGE_NAME = 'currentUser';
 export class AuthService {
   private userSubject = new Subject();
   user$ = this.userSubject.asObservable();
-
+  token: string;
   private userBehaviorSubject = new BehaviorSubject(null);
   userBehavior$ = this.userBehaviorSubject.asObservable();
   private userStorage: IUser[] = [];
@@ -37,7 +37,7 @@ export class AuthService {
   private getUser(login: string): IUser | null {
     return this.userStorage.find((user) => login === user.login) || null;
   }
-
+  
   private auth(user: IUser, isRememberMe?: boolean) {
     console.log('user', user)
     this.currentUser = user;
@@ -53,12 +53,18 @@ export class AuthService {
     this.userSubject.next(this.currentUser);
     this.userBehaviorSubject.next(this.currentUser);
   }
+  setToken(token: string): void {
+    this.token = token;
+  }
+  getToken(): string {
+    return this.token;
+  }
 
   addBasketToSubject(): void {
     this.userBasketSubject.next('basket' +  Math.random());
   }
 
-  setUser(user: IUser): void {
+  setUser(user: any): void {
     this.currentUser = user;
   }
 
@@ -79,16 +85,16 @@ export class AuthService {
     return this.currentUser;
   }
 
-  get token(): string | null {
+  /*get token(): string | null {
     return this.isAuthenticated ? 'my-token' : null;
-  }
+  }*/
 
   authUser(login: string, password: string, isRememberMe: boolean): true | string {
     const user = this.getUser(login);
     if (!user) {
       return 'User not found';
     }
-    if (user.password !== password) {
+    if (user.psw !== password) {
       return 'Wrong password';
     }
     this.authAndRedirect(user, isRememberMe)
@@ -115,8 +121,8 @@ export class AuthService {
     if (!this.currentUser) {
       return
     }
-    this.currentUser.password = password;
-    const dbUser = this.userStorage.find(({login}) => login === this.currentUser?.login)!;
-    dbUser.password = password
+    this.currentUser.psw = password;
+    /*const dbUser = this.userStorage.find(({login}) => login === this.currentUser?.login)!;
+    dbUser.password = password*/
   }
 }

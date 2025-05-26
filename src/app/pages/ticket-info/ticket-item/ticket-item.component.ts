@@ -7,6 +7,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../../services/auth/auth.service";
 import {forkJoin, fromEvent, Subscription} from "rxjs";
 import {TicketService} from "../../../services/ticket/ticket.service";
+import { IOrder } from 'src/app/models/order';
 
 @Component({
   selector: 'app-ticket-item',
@@ -118,4 +119,20 @@ export class TicketItemComponent implements OnInit {
       this.nearestTours = this.ticketService.transformData([data], this.tourLocations)
     })
   }
+
+  initTour(): void {
+    const userData = this.userForm.getRawValue();
+    const postData = {...this.ticket, ...userData};
+
+    const userId = this.authService.getUser()?.id || null;
+    const postObj: IOrder = {
+      age: postData.age,
+      birthDay: postData.birthDay,
+      cardNumber: postData.cardNumber,
+      tourId: postData.tourId,
+      userId: postData.userId,
+    }
+    this.ticketService.sendTourData(postObj).subscribe()
+  }
+  
 }

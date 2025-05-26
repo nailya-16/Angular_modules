@@ -1,6 +1,9 @@
 export interface IUser {
   login: string
-  password?: string
+  psw?: string
+  cardNumber?: string
+  email?: string
+  id?: number
 }
 
 export interface IStatisticUser {
