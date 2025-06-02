@@ -34,9 +34,9 @@ export class AuthService {
     }
   }
 
-  private getUser(login: string): IUser | null {
-    return this.userStorage.find((user) => login === user.login) || null;
-  }
+  public getUser(login: string): IUser | null {
+  return this.userStorage.find(user => user.login === login) || null;
+}
   
   private auth(user: IUser, isRememberMe?: boolean) {
     console.log('user', user)
@@ -81,7 +81,7 @@ export class AuthService {
   }
 
 
-  get user(): IUser | null {
+  public get user(): IUser | null {
     return this.currentUser;
   }
 

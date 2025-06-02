@@ -36,8 +36,8 @@ export class TicketStorageService {
   }
 
   setStorage(data: ITour[]): void {
-   // запись данных в this.ticketStorage
-  }
+  this.ticketStorage = data;
+}
   getStorage(): ITour[] {
      // возвращает в this.ticketStorage
     return []

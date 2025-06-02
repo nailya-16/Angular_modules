@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import {AuthService} from "../../../services/auth/auth.service";
-import {IUser} from "../../../models/users";
+import {AuthResponse, IUser} from "../../../models/users";
 import {MessageService} from "primeng/api";
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -39,7 +39,7 @@ export class AuthorizationComponent implements OnInit {
       cardNumber: this.cardNumber
     }; 
   
-    this.http.post<{access_token: string, id: string}>('http://localhost:3000/users/' + auth.login, auth).subscribe((data: {access_token: string}) => {
+    this.http.post<AuthResponse>('http://localhost:3000/users/' + auth.login, auth).subscribe((data: AuthResponse) => {
       auth.id = data.id;
       const userToken: string = data.access_token;
       this.authService.setToken(userToken);

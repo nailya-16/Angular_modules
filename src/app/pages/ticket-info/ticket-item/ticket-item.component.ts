@@ -124,7 +124,7 @@ export class TicketItemComponent implements OnInit {
     const userData = this.userForm.getRawValue();
     const postData = {...this.ticket, ...userData};
 
-    const userId = this.authService.getUser()?.id || null;
+    const userId = this.authService.user?.id || null;
     const postObj: IOrder = {
       age: postData.age,
       birthDay: postData.birthDay,

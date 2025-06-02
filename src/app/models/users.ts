@@ -3,7 +3,7 @@ export interface IUser {
   psw?: string
   cardNumber?: string
   email?: string
-  id?: number
+  id?: string
 }
 
 export interface IStatisticUser {
@@ -39,4 +39,9 @@ export interface ICustomStatisticUser {
   id: number,
   city: string,
   street: string
+}
+
+export interface AuthResponse {
+  access_token: string;
+  id: string;
 }
